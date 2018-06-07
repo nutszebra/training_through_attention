@@ -99,6 +99,7 @@ class Wide_ResNet(NN):
         self.conv1.bias.data = torch.FloatTensor(NN.bias_initialization(self.conv1, constant=0))
         self.linear.weight.data = torch.FloatTensor(np.random.uniform(-0.1, 0.1, self.linear.weight.data.shape))
         self.linear.bias.data = torch.FloatTensor(NN.bias_initialization(self.linear, constant=0.0))
+        self.attention.weight_initialization()
 
     def forward(self, x):
         prediction, attention_map = self.attention(x)
