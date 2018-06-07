@@ -101,9 +101,15 @@ class Wide_ResNet(NN):
         self.linear.bias.data = torch.FloatTensor(NN.bias_initialization(self.linear, constant=0.0))
         self.attention.weight_initialization()
 
+    def normalize(self, x, eps=1.0e-8):
+        batch, ch, height, width = x.data.shape
+        mean = x.view(batch, -1).mean(1).repeat(1, ch * height * width).view(ch, 1, height, width, batch).transpose(0, -1).transpose(1, -1).squeeze(-1).detach()
+        std = (x.view(batch, -1).std(1) + eps).repeat(1, ch * height * width).view(ch, 1, height, width, batch).transpose(0, -1).transpose(1, -1).squeeze(-1).detach()
+        return (x - mean) / std
+
     def forward(self, x):
         prediction, attention_map = self.attention(x)
-        out = self.conv1(x * attention_map)
+        out = self.conv1(self.normalize(x * attention_map))
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
