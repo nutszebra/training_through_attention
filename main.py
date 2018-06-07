@@ -25,7 +25,7 @@ parser.add_argument('--seed', type=int, default=1, metavar='S',
                     help='random seed (default: 1)')
 parser.add_argument('--model', type=str, default='wide_resnet.Wide_ResNet(16,4,0.0,10)', metavar='M',
                     help='model definition here')
-parser.add_argument('--optimizer', type=str, default='MomentumSGD(model,0.1,0.9,schedule=[],weight_decay=1.0e-4)', metavar='M',
+parser.add_argument('--optimizer', type=str, default='MomentumSGD(model,0.1,0.9,schedule=[200, 250],weight_decay=1.0e-4)', metavar='M',
                     help='optimizer definition here')
 parser.add_argument('--trainer', type=str, default='Cifar10Trainer', metavar='M',
                     help='model definition here')
