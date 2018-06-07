@@ -117,7 +117,7 @@ class Wide_ResNet(NN):
         out = F.avg_pool2d(out, 8)
         out = out.view(out.size(0), -1)
         out = self.linear(out)
-        return out * prediction
+        return out + prediction
 
 
 if __name__ == '__main__':
