@@ -108,8 +108,8 @@ class Attention(NN):
         prediction = F.avg_pool2d(out, 8)
         prediction = prediction.view(out.size(0), -1)
         # attention map
-        attention = F.softmax(prediction).view(prediction.size(0), prediction.size(1), 1, 1).repeat(1, 1, out.size(2), out.size(3)) * out
-        attention = F.upsample(F.sigmoid(attention.sum(1)).view(attention.size(0), 1, attention.size(2), attention.size(3)).repeat(1, 3, 1, 1), x.size()[2:])
+        attention = F.softmax(prediction).view(prediction.size(0), prediction.size(1), 1, 1).repeat(1, 1, out.size(2), out.size(3)) * out + 1.0
+        attention = F.upsample(F.relu(attention).sum(1).view(attention.size(0), 1, attention.size(2), attention.size(3)).repeat(1, 3, 1, 1), x.size()[2:])
         return prediction, attention
 
 
