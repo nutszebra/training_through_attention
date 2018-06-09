@@ -109,7 +109,7 @@ class Wide_ResNet(NN):
 
     def forward(self, x):
         prediction, attention_map = self.attention(x)
-        out = self.conv1(self.normalize(x * attention_map.detach()))
+        out = self.conv1(self.normalize(x * attention_map))
         out = self.layer1(out)
         out = self.layer2(out)
         out = self.layer3(out)
